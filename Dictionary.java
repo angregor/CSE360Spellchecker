@@ -6,6 +6,8 @@ public class Dictionary {
 	private String[] addedWords = new String[5];
 	private int count = 0;
 	private int dictionarySize = 5;
+	private static int addFilecount;
+    	private static int incFilecount;
 
 	public Dictionary()
 	{
@@ -157,9 +159,71 @@ public class Dictionary {
 		}
 	}
 	
-	public void outputFiles()
-	{
-		
-	}
+//FILE OPS
+    public boolean addedToFile(String optName) throws IOException {
+
+        String filename = "addedWords"+addFilecount+".txt";
+        if(optName != null){
+            filename = optName+".txt";
+        }
+        File addedWords = new File(filename);
+        if(!addedWords.exists()) {
+            FileWriter write;
+            try{
+                write = new FileWriter(addedWords);
+            }catch(IOException e){
+                return false;
+            }
+
+            BufferedWriter writeB = new BufferedWriter(write);
+
+            for(int i =0; i < this.adSize; i++){
+                try {
+                    writeB.write(this.addedWords[i]+"\n");
+                }catch(IOException e){
+                    return false;
+                }
+            }
+            try {
+                writeB.close();
+            }catch(IOException e){
+                return false;
+            }
+            addFilecount++;
+        }
+        return true;
+    }
+    public boolean incToFile(String optName){
+        String filename = "incorrectWords"+incFilecount+".txt";
+        if(optName != null){
+            filename = optName+".txt";
+        }
+        File incWords = new File(filename);
+        if(!incWords.exists()) {
+            FileWriter write;
+            try{
+                write = new FileWriter(incWords);
+            }catch(IOException e){
+                return false;
+            }
+
+            BufferedWriter writeB = new BufferedWriter(write);
+
+            for(int i =0; i < this.incSize; i++){
+                try {
+                    writeB.write(this.ignoredWords[i]+"\n");
+                }catch(IOException e){
+                    return false;
+                }
+            }
+            try {
+                writeB.close();
+            }catch(IOException e){
+                return false;
+            }
+            incFilecount++;
+        }
+        return true;
+    }
 
 }
